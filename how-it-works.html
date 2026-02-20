@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - ImageSecure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🔐AegisPix </a>            
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="encrypt-image.html">Encrypt</a></li>
+                <li><a href="open-image.html">Decrypt</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="resource-content">
+                <h1>🚀 How AegisPix Works</h1>
+                <p class="resource-intro">Learn how our military-grade encryption keeps your images safe and private</p>
+
+                <section>
+                    <h2>🔐 The Encryption Process</h2>
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Select Your Image</h3>
+                            <p>Choose any image file (JPG, PNG, GIF, WebP, BMP) from your device. The image stays on your computer - nothing is uploaded.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Create a Strong Password</h3>
+                            <p>Enter a secure password. We recommend at least 12 characters with mixed case, numbers, and symbols. This password will be required to decrypt your image later.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Automatic Encryption</h3>
+                            <p>Your browser uses AES-256-GCM encryption to protect your image. A random salt and initialization vector ensure each encryption is unique.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Download Encrypted File</h3>
+                            <p>Receive a <code>.pwimg</code> file that contains your encrypted image. This file can only be opened with the correct password.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>🔓 The Decryption Process</h2>
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Select Encrypted File</h3>
+                            <p>Choose your <code>.pwimg</code> file. The file format is verified to ensure it's a valid encrypted image.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Enter Password</h3>
+                            <p>Provide the same password used during encryption. The password is converted to an encryption key using the same secure process.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Automatic Decryption</h3>
+                            <p>Your browser decrypts the image using the same AES-256-GCM algorithm. The process verifies data integrity.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>View or Download</h3>
+                            <p>Your original image is displayed or downloaded. You can also copy it to your clipboard for immediate use.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>🔬 Technical Details</h2>
+                    <div class="tech-specs">
+                        <div class="spec-item">
+                            <h4>Encryption Algorithm</h4>
+                            <p><strong>AES-256-GCM</strong></p>
+                            <span>Symmetric encryption with authentication</span>
+                        </div>
+
+                        <div class="spec-item">
+                            <h4>Key Derivation</h4>
+                            <p><strong>PBKDF2-SHA256</strong></p>
+                            <span>100,000 iterations for password strengthening</span>
+                        </div>
+
+                        <div class="spec-item">
+                            <h4>Key Size</h4>
+                            <p><strong>256 bits</strong></p>
+                            <span>2^256 possible combinations</span>
+                        </div>
+
+                        <div class="spec-item">
+                            <h4>Random Values</h4>
+                            <p><strong>Salt + IV</strong></p>
+                            <span>128-bit salt, 96-bit IV per file</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>🌐 Browser Compatibility</h2>
+                    <p>AegisPix works with modern browsers that support the Web Crypto API:</p>
+                    <div class="browser-support">
+                        <div class="browser-item supported">
+                            <span class="browser-icon">🌐</span>
+                            <span>Chrome 37+</span>
+                        </div>
+                        <div class="browser-item supported">
+                            <span class="browser-icon">🦊</span>
+                            <span>Firefox 34+</span>
+                        </div>
+                        <div class="browser-item supported">
+                            <span class="browser-icon">🍎</span>
+                            <span>Safari 11+</span>
+                        </div>
+                        <div class="browser-item supported">
+                            <span class="browser-icon">⚡</span>
+                            <span>Edge 79+</span>
+                        </div>
+                    </div>
+                    <p class="note">All processing happens User side - with internet connection and tool used for encryption/decryption.</p>
+                </section>
+
+                <section>
+                    <h2>🛡️ Security Features</h2>
+                    <ul class="security-features">
+                        <li><strong>Zero Knowledge:</strong> We never see your images or passwords</li>
+                        <li><strong>Client-Side Only:</strong> All processing happens in your browser</li>
+                        <li><strong>No Data Storage:</strong> Nothing is saved on our servers</li>
+                        <li><strong>Unique Encryption:</strong> Each file uses different random values</li>
+                        <li><strong>Integrity Verification:</strong> Detects if files are corrupted</li>
+                        <li><strong>Password Protection:</strong> Strong encryption requires correct password</li>
+                    </ul>
+                </section>
+
+                <section>
+                  
+                    <div class="cta-box">
+                        <p>Ready to get started?</p>
+                        <a href="encrypt-image.html" class="btn btn-primary">Try Encryption Now →</a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>🛡️AegisPix</h4>
+                <p>Military-grade image encryption for everyone. Secure, private, and offline.</p>
+                <div class="social-links">
+                    
+                    <a href="https://github.comPrakash260106" title="GitHub">⚙️</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Tools</h4>
+                <ul>
+                    <li><a href="encrypt-image.html">Encrypt Image</a></li>
+                    <li><a href="open-image.html">Decrypt Image</a></li>
+                    
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="documentation.html">Documentation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="security.html">Security</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 AegisPix . All rights reserved. | Made with ❤️ for your privacy</p>
+        </div>
+    </footer>
+
+    <style>
+        .resource-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .resource-content h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .resource-intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .resource-content section {
+            margin-bottom: 60px;
+        }
+
+        .resource-content h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.6em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .step-content p {
+            line-height: 1.7;
+            color: #444;
+            margin: 0;
+        }
+
+        .tech-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .spec-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .spec-item h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .spec-item p {
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .spec-item span {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .browser-support {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .browser-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .browser-item.supported {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .browser-icon {
+            font-size: 1.2em;
+        }
+
+        .note {
+            font-style: italic;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .security-features li {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            line-height: 1.6;
+        }
+
+        .security-features strong {
+            color: #333;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .cta-box p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .cta-box .btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid white;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .cta-box .btn:hover {
+            background: transparent;
+            color: white;
+        }
+
+        code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+        }
+    </style>
+</body>
+</html>

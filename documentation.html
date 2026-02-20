@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation -AegisPix</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🔐AegisPix</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="encrypt-image.html">Encrypt</a></li>
+                <li><a href="open-image.html">Decrypt</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="resource-content">
+                <h1>📚 Documentation</h1>
+                <p class="resource-intro">Complete technical documentation for Image-Protector</p>
+
+                <div class="doc-nav">
+                    <a href="#getting-started" class="doc-link">Getting Started</a>
+                    <a href="#api-reference" class="doc-link">API Reference</a>
+                    <a href="#file-format" class="doc-link">File Format</a>
+                    <a href="#troubleshooting" class="doc-link">Troubleshooting</a>
+                    <a href="#contributing" class="doc-link">Contributing</a>
+                </div>
+
+                <section id="getting-started">
+                    <h2>🚀 Getting Started</h2>
+
+                    <h3>Web Interface</h3>
+                    <ol>
+                        <li>Open AegisPix in your Browser</li>
+                        <li>Click "Select Image" and choose your image file</li>
+                        <li>Enter a strong password (minimum 6 characters)</li>
+                        <li>Optionally enter a custom filename</li>
+                        <li>Click "Encrypt & Download" to get your <code>.pwimg</code> file</li>
+                    </ol>
+
+                    <h3>Decrypting Images</h3>
+                    <ol>
+                        <li>Open AegisPix in your browser</li>
+                        <li>Click "Select .pwimg File" and choose your encrypted file</li>
+                        <li>Enter the password used during encryption</li>
+                        <li>Click "Decrypt & View" to see your image</li>
+                        <li>Use "Download Image" or "Copy to Clipboard" as needed</li>
+                    </ol>
+
+                    <h3>Browser Requirements</h3>
+                    <ul>
+                        <li><strong>Web Crypto API support:</strong> Chrome 37+, Firefox 34+, Safari 11+, Edge 79+</li>
+                        <li><strong>File API support:</strong> All modern browsers</li>
+                        <li><strong>Blob support:</strong> All modern browsers</li>
+                        <li><strong>Download API:</strong> All modern browsers</li>
+                    </ul>
+                </section>
+
+                <section id="api-reference">
+                    <h2>🔧 API Reference</h2>
+
+                    <h3>Web Crypto API Usage</h3>
+                    <p>AegisPix uses the following Web Crypto API methods:</p>
+
+                    <div class="code-block">
+                        <h4>Key Derivation (PBKDF2)</h4>
+                        <pre><code>// Derive encryption key from password
+const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(password),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveBits']
+);
+
+const derivedBits = await crypto.subtle.deriveBits({
+    name: 'PBKDF2',
+    salt: salt,           // 16 bytes
+    iterations: 100000,   // PBKDF2 iterations
+    hash: 'SHA-256'
+}, keyMaterial, 256);</code></pre>
+                    </div>
+
+                    <div class="code-block">
+                        <h4>AES-GCM Encryption</h4>
+                        <pre><code>// Import key for AES-GCM
+const key = await crypto.subtle.importKey(
+    'raw',
+    derivedBits,
+    { name: 'AES-GCM' },
+    false,
+    ['encrypt']
+);
+
+// Encrypt the image data
+const encryptedData = await crypto.subtle.encrypt({
+    name: 'AES-GCM',
+    iv: iv    // 12 bytes initialization vector
+}, key, imageData);</code></pre>
+                    </div>
+
+                    <div class="code-block">
+                        <h4>AES-GCM Decryption</h4>
+                        <pre><code>// Import key for AES-GCM decryption
+const key = await crypto.subtle.importKey(
+    'raw',
+    derivedBits,
+    { name: 'AES-GCM' },
+    false,
+    ['decrypt']
+);
+
+// Decrypt the image data
+const decryptedData = await crypto.subtle.decrypt({
+    name: 'AES-GCM',
+    iv: iv    // Same IV used for encryption
+}, key, encryptedData);</code></pre>
+                    </div>
+
+                    <h3>Error Handling</h3>
+                    <p>The application handles the following error conditions:</p>
+                    <ul>
+                        <li><strong>Invalid file format:</strong> Files not starting with 'PWIMG'</li>
+                        <li><strong>Unsupported version:</strong> Version numbers other than 1</li>
+                        <li><strong>Decryption failure:</strong> Wrong password or corrupted data</li>
+                        <li><strong>Browser compatibility:</strong> Missing Web Crypto API support</li>
+                    </ul>
+                </section>
+
+                <section id="file-format">
+                    <h2>📁 File Format Specification</h2>
+
+                    <h3>.pwimg File Structure</h3>
+                    <p>Encrypted files use a custom binary format:</p>
+
+                    <div class="file-structure">
+                        <div class="structure-item">
+                            <span class="offset">0x00 - 0x04</span>
+                            <span class="field">Magic Bytes</span>
+                            <span class="value">'PWIMG' (5 bytes)</span>
+                            <span class="desc">File format identifier</span>
+                        </div>
+
+                        <div class="structure-item">
+                            <span class="offset">0x05</span>
+                            <span class="field">Version</span>
+                            <span class="value">1 (1 byte)</span>
+                            <span class="desc">Format version number</span>
+                        </div>
+
+                        <div class="structure-item">
+                            <span class="offset">0x06 - 0x15</span>
+                            <span class="field">Salt</span>
+                            <span class="value">16 bytes</span>
+                            <span class="desc">PBKDF2 salt (random)</span>
+                        </div>
+
+                        <div class="structure-item">
+                            <span class="offset">0x16 - 0x21</span>
+                            <span class="field">IV</span>
+                            <span class="value">12 bytes</span>
+                            <span class="desc">AES-GCM initialization vector</span>
+                        </div>
+
+                        <div class="structure-item">
+                            <span class="offset">0x22 - EOF</span>
+                            <span class="field">Encrypted Data</span>
+                            <span class="value">Variable</span>
+                            <span class="desc">AES-GCM encrypted image data</span>
+                        </div>
+                    </div>
+
+                    <h3>Technical Details</h3>
+                    <ul>
+                        <li><strong>Total header size:</strong> 34 bytes (magic + version + salt + IV)</li>
+                        <li><strong>Encryption:</strong> AES-256-GCM with 96-bit IV</li>
+                        <li><strong>Authentication:</strong> GCM provides built-in integrity verification</li>
+                        <li><strong>Key derivation:</strong> PBKDF2-SHA256 with 100,000 iterations</li>
+                    </ul>
+
+                    <h3>Compatibility</h3>
+                    <p>The .pwimg format is designed to be:</p>
+                    <ul>
+                        <li><strong>Cross-platform:</strong> Works on Windows, macOS, Linux</li>
+                        <li><strong>Future-proof:</strong> Version field allows format updates</li>
+                        <li><strong>Secure:</strong> No metadata leakage, authenticated encryption</li>
+                        <li><strong>Efficient:</strong> Minimal overhead (34 bytes header)</li>
+                    </ul>
+                </section>
+
+
+                <section id="troubleshooting">
+                    <h2>🔧 Troubleshooting</h2>
+
+                    <h3>Common Issues</h3>
+
+                    <div class="troubleshoot-item">
+                        <h4>"Web Crypto API not supported"</h4>
+                        <p><strong>Solution:</strong> Update your browser to the latest version. AegisPix requires Chrome 37+, Firefox 34+, Safari 11+, or Edge 79+.</p>
+                    </div>
+
+                    <div class="troubleshoot-item">
+                        <h4>"Invalid file format" error</h4>
+                        <p><strong>Solution:</strong> Ensure you're selecting a valid .pwimg file created by AegisPix. The file must start with the 'PWIMG' magic bytes.</p>
+                    </div>
+
+                    <div class="troubleshoot-item">
+                        <h4>"Decryption failed" error</h4>
+                        <p><strong>Solution:</strong> Verify you're using the correct password. Passwords are case-sensitive. If the file is corrupted, try re-encrypting the original image.</p>
+                    </div>
+
+                    <div class="troubleshoot-item">
+                        <h4>Large files won't encrypt</h4>
+                        <p><strong>Solution:</strong> Browser memory limits apply. Try splitting large files or use the desktop application for bigger images.</p>
+                    </div>
+
+                    <h3>Debug Information</h3>
+                    <p>To help troubleshoot issues, please provide:</p>
+                    <ul>
+                        <li>Browser name and version</li>
+                        <li>Operating system and version</li>
+                        <li>Exact error message</li>
+                        <li>Steps to reproduce the issue</li>
+                    </ul>
+                </section>
+
+                <section id="contributing">
+                    <h2>🤝 Contributing</h2>
+
+                    <h3>Development Setup</h3>
+                    <div class="code-block">
+                        <h4>Clone the repository</h4>
+                        <pre><code>git clone https://github.comPrakash260106</pre></code>
+                    </div>
+
+                    <h3>Contributing Guidelines</h3>
+                    <ul>
+                        <li><strong>Security:</strong> All changes must maintain security standards</li>
+                        <li><strong>Compatibility:</strong> Ensure cross-browser compatibility</li>
+                        <li><strong>Documentation:</strong> Update docs for any API changes</li>
+                        <li><strong>Testing:</strong> Test encryption/decryption thoroughly</li>
+                        <li><strong>Code Style:</strong> Follow existing code patterns</li>
+                    </ul>
+
+                    <h3>Reporting Issues</h3>
+                    <p>Use the contact form for bug reports and feature requests. Include:</p>
+                    <ul>
+                        <li>Detailed description of the issue</li>
+                        <li>Steps to reproduce</li>
+                        <li>Expected vs actual behavior</li>
+                        <li>Browser/OS information</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>🛡️AegisPix</h4>
+                <p>Military-grade image encryption for everyone. Secure, private and User-friendly.</p>
+                <div class="social-links">
+                     <a href="https://github.comPrakash260106" title="GitHub">⚙️</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Tools</h4>
+                <ul>
+                    <li><a href="encrypt-image.html">Encrypt Image</a></li>
+                    <li><a href="open-image.html">Decrypt Image</a></li>
+                  
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="documentation.html">Documentation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="security.html">Security</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 🛡️AegisPix. All rights reserved. | Made with ❤️ for your privacy</p>
+        </div>
+    </footer>
+
+    <style>
+        .resource-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .resource-content h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .resource-intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .doc-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+
+        .doc-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.3s;
+        }
+
+        .doc-link:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+        }
+
+        .resource-content section {
+            margin-bottom: 60px;
+        }
+
+        .resource-content h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.6em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .resource-content h3 {
+            color: #444;
+            margin: 30px 0 15px 0;
+            font-size: 1.3em;
+        }
+
+        .resource-content h4 {
+            color: #555;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+        }
+
+        .resource-content p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .resource-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .resource-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .code-block h4 {
+            background: #667eea;
+            color: white;
+            margin: 0;
+            padding: 12px 15px;
+            font-size: 1em;
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 15px;
+            background: #f8f9fa;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .file-structure {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .structure-item {
+            display: grid;
+            grid-template-columns: 120px 150px 120px 1fr;
+            gap: 15px;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            align-items: center;
+        }
+
+        .structure-item:last-child {
+            border-bottom: none;
+        }
+
+        .offset {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .field {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .value {
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+        }
+
+        .desc {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .troubleshoot-item {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .troubleshoot-item h4 {
+            color: #856404;
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+        }
+
+        .troubleshoot-item p {
+            color: #856404;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .troubleshoot-item strong {
+            color: #533f00;
+        }
+
+        @media (max-width: 768px) {
+            .doc-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .structure-item {
+                grid-template-columns: 1fr;
+                gap: 5px;
+                text-align: center;
+            }
+
+            .code-block pre {
+                font-size: 12px;
+            }
+        }
+    </style>
+</body>
+</html>

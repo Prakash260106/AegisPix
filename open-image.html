@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Password Protected Image</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="file"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="file"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="file"] {
+            padding: 8px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #28a745;
+            color: white;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: #218838;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            color: #155724;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            color: #721c24;
+            display: none;
+        }
+
+        .progress {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .image-preview {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+            display: none;
+        }
+
+        .image-preview h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .preview-container {
+            max-width: 100%;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #previewImage {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 6px;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .download-buttons button {
+            flex: 1;
+        }
+
+        .file-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            color: #667eea;
+        }
+
+        .toggle-password:hover {
+            color: #764ba2;
+        }
+
+        .password-wrapper input[type="password"],
+        .password-wrapper input[type="text"] {
+            padding-right: 45px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .info-box {
+                font-size: 13px;
+                padding: 12px;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔓 Open Encrypted Image</h1>
+        <p class="subtitle">Decrypt and view your password-protected images</p>
+
+        <div class="info-box">
+            <strong>ℹ️ How it works:</strong><br>
+            1. Upload the .pwimg file<br>
+            2. Enter the password used during encryption<br>
+            3. Your image will be decrypted and displayed<br>
+            4. Download the original image if needed<br>
+            ✓ Everything happens offline - your data stays private
+        </div>
+
+        <form id="decryptForm">
+            <div class="form-group">
+                <label for="encryptedFile">📁 Select .pwimg File</label>
+                <input type="file" id="encryptedFile" accept=".pwimg,application/octet-stream" required>
+                <div class="file-info" id="fileInfo"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">🔑 Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Enter the password" required minlength="6">
+                    <button type="button" class="toggle-password" id="togglePassword" title="Show/Hide password">👁️</button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">🔓 Decrypt & View</button>
+
+            <div class="progress" id="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            ✅ Image decrypted successfully!
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="image-preview" id="imagePreview">
+            <h3>🖼️ Decrypted Image</h3>
+            <div class="preview-container">
+                <img id="previewImage" alt="Decrypted image">
+            </div>
+            <div class="download-buttons">
+                <button class="btn btn-secondary" onclick="downloadDecryptedImage()">⬇️ Download Image</button>
+                <button class="btn btn-secondary" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+                <button class="btn btn-secondary" onclick="resetView()">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let decryptedImageBlob = null;
+        let decryptedImageName = 'decrypted-image';
+
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', (e) => {
+            e.preventDefault();
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('togglePassword');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        });
+
+        // File selection
+        document.getElementById('encryptedFile').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const fileSize = (file.size / 1024).toFixed(2);
+                document.getElementById('fileInfo').textContent = `File: ${file.name} (${fileSize} KB)`;
+            }
+        });
+
+        // Form submission
+        document.getElementById('decryptForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await decryptImage();
+        });
+
+        async function decryptImage() {
+            const encryptedFile = document.getElementById('encryptedFile').files[0];
+            const password = document.getElementById('password').value;
+
+            if (!encryptedFile) {
+                showError('Please select an encrypted file');
+                return;
+            }
+
+            if (!password) {
+                showError('Please enter the password');
+                return;
+            }
+
+            try {
+                showProgress(true);
+                clearMessages();
+
+                // Read encrypted file
+                const arrayBuffer = await encryptedFile.arrayBuffer();
+                const fileData = new Uint8Array(arrayBuffer);
+
+                // Verify magic bytes (PWIMG)
+                const magic = new TextDecoder().decode(fileData.slice(0, 5));
+                if (magic !== 'PWIMG') {
+                    throw new Error('Invalid file format. This does not appear to be a password-protected image.');
+                }
+
+                // Get version
+                const version = fileData[5];
+                if (version !== 1) {
+                    throw new Error('Unsupported file version');
+                }
+
+                // Extract components
+                const salt = fileData.slice(6, 22); // 16 bytes
+                const iv = fileData.slice(22, 34); // 12 bytes
+                const encryptedData = fileData.slice(34); // Rest is encrypted data
+
+                // Derive key from password using PBKDF2 with the same salt
+                const keyMaterial = await crypto.subtle.importKey(
+                    'raw',
+                    new TextEncoder().encode(password),
+                    { name: 'PBKDF2' },
+                    false,
+                    ['deriveBits']
+                );
+
+                const derivedBits = await crypto.subtle.deriveBits(
+                    {
+                        name: 'PBKDF2',
+                        salt: salt,
+                        iterations: 100000,
+                        hash: 'SHA-256'
+                    },
+                    keyMaterial,
+                    256
+                );
+
+                const key = await crypto.subtle.importKey(
+                    'raw',
+                    derivedBits,
+                    { name: 'AES-GCM' },
+                    false,
+                    ['decrypt']
+                );
+
+                // Decrypt the image data
+                let decryptedData;
+                try {
+                    decryptedData = await crypto.subtle.decrypt(
+                        { name: 'AES-GCM', iv: iv },
+                        key,
+                        encryptedData
+                    );
+                } catch (error) {
+                    throw new Error('Decryption failed. Wrong password or corrupted file.');
+                }
+
+                // Convert to blob and display
+                decryptedImageBlob = new Blob([decryptedData], { type: 'image/jpeg' });
+                const imageUrl = URL.createObjectURL(decryptedImageBlob);
+                document.getElementById('previewImage').src = imageUrl;
+                decryptedImageName = encryptedFile.name.replace('.pwimg', '') || 'decrypted-image';
+
+                showProgress(false);
+                showSuccess('Image decrypted successfully!');
+                document.getElementById('imagePreview').style.display = 'block';
+
+            } catch (error) {
+                showProgress(false);
+                showError(error.message);
+                console.error('Decryption error:', error);
+                document.getElementById('imagePreview').style.display = 'none';
+            }
+        }
+
+        function downloadDecryptedImage() {
+            if (!decryptedImageBlob) {
+                showError('No image to download');
+                return;
+            }
+
+            const url = URL.createObjectURL(decryptedImageBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = decryptedImageName + '.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        async function copyToClipboard() {
+            if (!decryptedImageBlob) {
+                showError('No image to copy');
+                return;
+            }
+
+            try {
+                await navigator.clipboard.write([
+                    new ClipboardItem({
+                        [decryptedImageBlob.type]: decryptedImageBlob
+                    })
+                ]);
+                showSuccess('Image copied to clipboard!');
+            } catch (error) {
+                showError('Could not copy to clipboard: ' + error.message);
+            }
+        }
+
+        function resetView() {
+            document.getElementById('decryptForm').reset();
+            document.getElementById('fileInfo').textContent = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            clearMessages();
+            decryptedImageBlob = null;
+        }
+
+        function showProgress(show) {
+            document.getElementById('progress').style.display = show ? 'block' : 'none';
+            if (show) {
+                document.getElementById('progressBar').style.width = '100%';
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = '❌ ' + message;
+            errorDiv.style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = '✅ ' + message;
+            successDiv.style.display = 'block';
+        }
+
+        function clearMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

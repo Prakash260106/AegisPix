@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security - ImageSecure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🔐 AegisPix.</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="encrypt-image.html">Encrypt</a></li>
+                <li><a href="open-image.html">Decrypt</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="policy-content">
+                <h1>🛡️ Security Overview</h1>
+                <p class="policy-date">Last updated: February 18, 2026</p>
+
+                <section>
+                    <h2>🔐 Encryption Standards</h2>
+                    <div class="security-highlight">
+                        <h3>AES-256-GCM Encryption</h3>
+                        <p>AegisPix. uses the Advanced Encryption Standard (AES) with 256-bit keys in Galois/Counter Mode (GCM). This is the same encryption standard used by governments and military organizations worldwide.</p>
+                        <ul>
+                            <li><strong>Key Size:</strong> 256 bits (2^256 possible combinations)</li>
+                            <li><strong>Mode:</strong> GCM (provides both confidentiality and authenticity)</li>
+                            <li><strong>Initialization Vector:</strong> 96 bits, randomly generated per file</li>
+                            <li><strong>Authentication:</strong> Built-in integrity verification</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>🔑 Password-Based Key Derivation</h2>
+                    <div class="security-highlight">
+                        <h3>PBKDF2 with SHA-256</h3>
+                        <p>We use Password-Based Key Derivation Function 2 (PBKDF2) to convert your password into a secure encryption key.</p>
+                        <ul>
+                            <li><strong>Hash Function:</strong> SHA-256</li>
+                            <li><strong>Iterations:</strong> 100,000 (makes brute-force attacks computationally expensive)</li>
+                            <li><strong>Salt:</strong> 128 bits, randomly generated per file</li>
+                            <li><strong>Output:</strong> 256-bit encryption key</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>🌐 Client-Side Processing</h2>
+                    <p>All encryption and decryption occurs in your browser using the Web Crypto API:</p>
+                    <ul>
+                        <li><strong>No Server Access:</strong> Your images never leave your device</li>
+                        <li><strong>Zero Data Transmission:</strong> Nothing is uploaded or downloaded</li>
+                        <li><strong>Local Processing:</strong> All operations happen in your browser's secure environment</li>
+                        <li><strong>Memory Only:</strong> Files are processed in memory and immediately discarded</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>📁 File Format Security</h2>
+                    <div class="security-highlight">
+                        <h3>Custom .pwimg Format</h3>
+                        <p>Our proprietary file format ensures maximum security and compatibility:</p>
+                        <ul>
+                            <li><strong>Magic Bytes:</strong> 'PWIMG' identifier for format verification</li>
+                            <li><strong>Version Control:</strong> Format versioning for future updates</li>
+                            <li><strong>Metadata Protection:</strong> All components are authenticated</li>
+                            <li><strong>Corruption Detection:</strong> Built-in integrity checks</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>🔒 Security Best Practices</h2>
+                    <h3>Password Recommendations:</h3>
+                    <ul>
+                        <li>Use at least 12 characters with mixed case, numbers, and symbols</li>
+                        <li>Avoid common words, names, or easily guessable patterns</li>
+                        <li>Use a unique password for each important file</li>
+                        <li>Consider using a password manager for complex passwords</li>
+                    </ul>
+
+                    <h3>File Handling:</h3>
+                    <ul>
+                        <li>Keep backup copies of important original files</li>
+                        <li>Store encrypted files in secure locations</li>
+                        <li>Use secure communication channels when sharing passwords</li>
+                        <li>Verify file integrity after encryption/decryption</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>⚠️ Security Limitations</h2>
+                    <div class="warning-box">
+                        <h3>Important Considerations:</h3>
+                        <ul>
+                            <li><strong>Password Recovery:</strong> Forgotten passwords cannot be recovered</li>
+                            <li><strong>Key Security:</strong> Password strength is crucial for security</li>
+                            <li><strong>Browser Security:</strong> Ensure your browser is up to date</li>
+                            <li><strong>Device Security:</strong> Protect your device from malware</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>🔍 Security Audits</h2>
+                    <p>Our encryption implementation is based on:</p>
+                    <ul>
+                        <li><strong>Web Crypto API:</strong> W3C standard, audited by security experts</li>
+                        <li><strong>AES-GCM:</strong> NIST-approved encryption standard</li>
+                        <li><strong>PBKDF2:</strong> RFC 2898 standard implementation</li>
+                        <li><strong>Open Source:</strong> Code available for independent review</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>🚨 Reporting Security Issues</h2>
+                    <p>If you discover a security vulnerability:</p>
+                    <ul>
+                        <li>Contact us immediately through the contact form</li>
+                        <li>Do not publicly disclose the issue until it's resolved</li>
+                        <li>Provide detailed information to help us investigate</li>
+                        <li>We will acknowledge receipt within 48 hours</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>📈 Security Updates</h2>
+                    <p>We continuously improve our security:</p>
+                    <ul>
+                        <li>Regular security updates and patches</li>
+                        <li>Monitoring of new threats and vulnerabilities</li>
+                        <li>Updates to encryption standards as needed</li>
+                        <li>Community feedback and security research</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>🛡️AegisPix.</h4>
+                <p>Military-grade image encryption for everyone. Secure, private, and offline.</p>
+                <div class="social-links">
+                    
+                    <a href="https://github.comPrakash260106" title="GitHub">⚙️</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Tools</h4>
+                <ul>
+                    <li><a href="encrypt-image.html">Encrypt Image</a></li>
+                    <li><a href="open-image.html">Decrypt Image</a></li>
+
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="documentation.html">Documentation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="security.html">Security</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 AegisPix.. All rights reserved. | Made with ❤️ for your privacy</p>
+        </div>
+    </footer>
+
+    <style>
+        .policy-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .policy-content h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .policy-date {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .policy-content section {
+            margin-bottom: 50px;
+        }
+
+        .policy-content h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .policy-content h3 {
+            color: #555;
+            margin: 25px 0 15px 0;
+            font-size: 1.2em;
+        }
+
+        .policy-content p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .policy-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .policy-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .security-highlight {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+            border-left: 4px solid #667eea;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .security-highlight h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .security-highlight ul {
+            margin-left: 0;
+            margin-top: 15px;
+        }
+
+        .security-highlight li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .security-highlight li:last-child {
+            border-bottom: none;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left: 4px solid #ffc107;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box h3 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .warning-box ul {
+            margin-left: 0;
+        }
+
+        .warning-box li {
+            color: #856404;
+        }
+
+        .policy-content strong {
+            color: #333;
+            font-weight: 600;
+        }
+    </style>
+</body>
+</html>
